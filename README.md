@@ -1,2 +1,2 @@
-# vigenere-encrypt-decrypt-hack
+# Шифр Виженера
 <b>Запускать через vigenereStart.py</b>
