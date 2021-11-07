@@ -49,7 +49,7 @@ letter_entry.grid(row=0, column=1)
 key_entry.grid(row=1, column=1)
 encrypted_entry.grid(row=4, column=1)
 
-letter_entry.insert(0, "The Vigenere cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It employs a form of polyalphabetic substitution")
+letter_entry.insert(0, "The Vigenere cipher is a method of encrypting alphabetic text by using a series of interwoven Caesar ciphers, based on the letters of a keyword. It employs a form of polyalphabetic substitution. First described by Giovan Battista Bellaso in 1553, the cipher is easy to understand and implement, but it resisted all attempts to break it until 1863, three centuries later. This earned it the description le chiffrage indechiffrable (French for the indecipherable cipher). Many people have tried to implement encryption schemes that are essentially Vigenere ciphers. In 1863, Friedrich Kasiski was the first to publish a general method of deciphering Vigenere ciphers.")
 key_entry.insert(0, "albkde")
  
 encryptButton = Button(text="Encrypt", command=encryptClicked)
