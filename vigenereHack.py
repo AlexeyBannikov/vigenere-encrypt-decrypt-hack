@@ -60,8 +60,8 @@ def getMostCommonFactors(seqFactors):
     return factorsByCount
 
 #метод Касиски позволяет определить длину ключа
-def kasiskiExamination(ciphertext):
-    repeatedSeqIntervals = findIntervalsBetweenRepSeq(ciphertext)
+def kasiskiExamination(encryptedLetter):
+    repeatedSeqIntervals = findIntervalsBetweenRepSeq(encryptedLetter)
     seqFactors = {}
     for seq in repeatedSeqIntervals:
         seqFactors[seq] = []
@@ -84,11 +84,11 @@ def getNSubkeysLetters(n, keyLength, message):
     return ''.join(letters)
 
 
-def tryHackWithKeyLength(ciphertext, mostPossibleKeyLength):
-    ciphertextUp = ciphertext.upper()
+def tryHackWithKeyLength(encryptedLetter, mostPossibleKeyLength):
+    encryptedLetterUp = encryptedLetter.upper()
     allFreqScores = []
     for nth in range(1, mostPossibleKeyLength + 1):
-        nthLetters = getNSubkeysLetters(nth, mostPossibleKeyLength, ciphertextUp)
+        nthLetters = getNSubkeysLetters(nth, mostPossibleKeyLength, encryptedLetterUp)
         freqScores = []
         for possibleKey in ALPHABET:
             decryptedText = vigenereEncryptDecrypt.decrypt(possibleKey, nthLetters)
@@ -106,11 +106,11 @@ def tryHackWithKeyLength(ciphertext, mostPossibleKeyLength):
         for i in range(mostPossibleKeyLength):
             possibleKey += allFreqScores[i][indexes[i]][0]
         print('Попытка с ключом: %s' % (possibleKey))
-        decryptedText = vigenereEncryptDecrypt.decrypt(possibleKey, ciphertextUp)
+        decryptedText = vigenereEncryptDecrypt.decrypt(possibleKey, encryptedLetterUp)
         if detectEnglishWord.isEnglish(decryptedText):
             origCase = []
-            for i in range(len(ciphertext)):
-                if ciphertext[i].isupper():
+            for i in range(len(encryptedLetter)):
+                if encryptedLetter[i].isupper():
                     origCase.append(decryptedText[i].upper())
                 else:
                     origCase.append(decryptedText[i].lower())
@@ -124,21 +124,21 @@ def tryHackWithKeyLength(ciphertext, mostPossibleKeyLength):
     return None
 
 
-def hackVigenere(ciphertext):
-    allKeyLengths = kasiskiExamination(ciphertext)
+def hackVigenere(encryptedLetter):
+    allKeyLengths = kasiskiExamination(encryptedLetter)
     keyLengthStr = ''
     for keyLength in allKeyLengths:
         keyLengthStr += '%s ' % (keyLength)
     print('Наиболеее вероятные длины ключа: ' + keyLengthStr + '\n')
     for keyLength in allKeyLengths:
         print('Попытка взломать шифр с ключом длиной %s (%s возможных ключей)...' % (keyLength, NUM_FREQ_LETTERS ** keyLength))
-        hackedLetter = tryHackWithKeyLength(ciphertext, keyLength)
+        hackedLetter = tryHackWithKeyLength(encryptedLetter, keyLength)
         if hackedLetter != None:
             break
     for keyLength in range(1, KEY_LENGTH + 1):
         if keyLength not in allKeyLengths:
             print('Попытка взломать шифр с ключом длиной %s (%s возможных ключей )...' % (keyLength, NUM_FREQ_LETTERS ** keyLength))
-            hackedLetter = tryHackWithKeyLength(ciphertext, keyLength)
+            hackedLetter = tryHackWithKeyLength(encryptedLetter, keyLength)
             if hackedLetter != None:
                 break
     return hackedLetter
